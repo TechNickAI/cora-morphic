@@ -3,20 +3,16 @@ import { ArrowRight } from 'lucide-react'
 
 const exampleMessages = [
   {
-    heading: 'What is GPT-4o mini?',
-    message: 'What is GPT-4o mini?'
+    heading: 'Find me fun things to do in Lisbon tonight',
+    message: 'Find me fun things to do in Lisbon tonight',
   },
   {
-    heading: 'Why is Nvidia growing rapidly?',
-    message: 'Why is Nvidia growing rapidly?'
+    heading: 'Tell me a joke',
+    message: 'Tell me a joke',
   },
   {
-    heading: 'How does the Vercel AI SDK work?',
-    message: 'How does the Vercel AI SDK work?'
-  },
-  {
-    heading: 'Tesla vs Rivian',
-    message: 'Tesla vs Rivian'
+    heading: 'What is the latest on Trump vs Kamala?',
+    message: 'What is the latest on Trump vs Kamala?',
   }
 ]
 export function EmptyScreen({
