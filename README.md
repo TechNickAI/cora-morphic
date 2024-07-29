@@ -1,159 +1,110 @@
-# Morphic
+# Cora: Heart-Centered AI Assistant 🤖 + 💙
 
-An AI-powered search engine with a generative UI.
+![Build Status](https://github.com/TechNickAI/cora-morphic/actions/workflows/build.yml/badge.svg)
+![Lint Status](https://github.com/TechNickAI/cora-morphic/actions/workflows/linter.yml/badge.svg)
 
-![capture](/public/capture-240404_blk.png)
+## Overview
 
-> [!NOTE]
-> Please note that there are differences between this repository and the official website [morphic.sh](https://morphic.sh). The official website is a fork of this repository with additional features such as authentication, which are necessary for providing the service online. The core source code of Morphic resides in this repository, and it's designed to be easily built and deployed.
+Cora is a heart-centered AI assistant designed to revolutionize the way we interact with technology and enhance human potential. Named after the Latin word for "heart," Cora embodies our commitment to creating AI that is not just intelligent, but also empathetic, ethical, and aligned with human values.
 
-## 🗂️ Overview
+Our vision is to develop an AI assistant that serves as a synergist between human creativity and technological capability. Cora is not just a tool, but a partner in your personal and professional growth, aimed at amplifying your effectiveness and helping you achieve a 100x improvement in various aspects of your life.
 
-- 🛠 [Features](#-features)
-- 🧱 [Stack](#-stack)
-- 🚀 [Quickstart](#-quickstart)
-- 🌐 [Deploy](#-deploy)
-- 🔎 [Search Engine](#-search-engine)
-- ✅ [Verified models](#-verified-models)
+See [design.md](docs/design.md) for more details on the design and architecture.
 
-## 🛠 Features
+## Ethos and Goals
 
-- Search and answer using GenerativeUI
-- Understand user's questions
-- Search history functionality
-- Share search results ([Optional](https://github.com/miurla/morphic/blob/main/.env.local.example))
-- Video search support ([Optional](https://github.com/miurla/morphic/blob/main/.env.local.example))
-- Get answers from specified URLs
-- Use as a search engine [※](#-search-engine)
-- Support for providers other than OpenAI
-  - Google Generative AI Provider
-  - Anthropic Provider [※](https://github.com/miurla/morphic/pull/239)
-  - Ollama Provider ([Unstable](https://github.com/miurla/morphic/issues/215))
-- Specify the model to generate answers
-  - Groq API support [※](https://github.com/miurla/morphic/pull/58)
+At the core of Cora's development is the philosophy of Heart Centered AI, which seeks to create a harmonious intersection between humanity and technology. Our goals include:
 
-## 🧱 Stack
+1. Empowerment: Enhance human capabilities, allowing users to focus on high-level strategy and creativity.
+2. Ethical AI: Ensure that AI development remains grounded in empathy and multi-variate values.
+3. Personalization: Provide deeply tailored assistance by leveraging personal data responsibly.
+4. Efficiency: Dramatically improve productivity by handling a wide range of tasks with varying complexity.
+5. Innovation: Push the boundaries of what's possible with AI, particularly in entrepreneurial and creative domains.
+6. Holistic Growth: Support users in achieving balance across all aspects of life, not just career or productivity.
 
-- App framework: [Next.js](https://nextjs.org/)
-- Text streaming / Generative UI: [Vercel AI SDK](https://sdk.vercel.ai/docs)
-- Generative Model: [OpenAI](https://openai.com/)
-- Search API: [Tavily AI](https://tavily.com/) / [Serper](https://serper.dev)
-- Reader API: [Jina AI](https://jina.ai/)
-- Serverless Database: [Upstash](https://upstash.com/)
-- Component library: [shadcn/ui](https://ui.shadcn.com/)
-- Headless component primitives: [Radix UI](https://www.radix-ui.com/)
-- Styling: [Tailwind CSS](https://tailwindcss.com/)
+## Installation and Setup
 
-## 🚀 Quickstart
+To get up and running in a development environment, follow these steps:
 
-### 1. Fork and Clone repo
-
-Fork the repo to your Github account, then run the following command to clone the repo:
-
-```
-git clone git@github.com:[YOUR_GITHUB_ACCOUNT]/morphic.git
+```bash
+pnpm install
+pnpm run dev
 ```
 
-### 2. Install dependencies
+You'll have to set up a few environment variables to get the app running. See [.env.example](.env.example) for more details.
 
+## TODOs
+
+### First release (on par with typing mind)
+
+-   [x] Base nextjs setup
+-   [x] Basic chat working with an agent
+-   [X] Anthropic support
+-   [ ] Pre-process the users request
+-   [ ] Login with Google
+-   [ ] Store all chat histories in Zep or MemGPT
+-   [ ] Voice input
+-   [ ] Display status from tools
+-   [ ] Dynamically choose which is the best model for the query
+-   [ ] Link to appropriate google results
+-   [ ] Perplexity support
+-   [X] Card library for sophisticated responses (thank you @miurla for Morphic)
+-   [ ] Dynamically generate the cards (Generative UI) (thank you @miurla for Morphic)
+-   [ ] Use the memory to store facts and have them included in the response
+-   [ ] Allow for past user chat histories to be referenced in responses
+-   [ ] Greet the user with a personalized opening chat
+
+### After first release
+
+-   [ ] New User onboarding (gather facts, walk them through the interface)
+-   [ ] Web page reader
+-   [ ] Cora as an orchestration layer
+-   [ ] Upload files
+-   [ ] Generate images
+-   [ ] Cora as a product manager for one user. Then sharing information across users to self improve.
+-   [ ] Dynamically create the agents to perform the task
+-   [ ] Support sophisticated multi agent report for detailed research
+
+## Ideas to explore
+
+## Agent
+
+-   Chain of Reasoning
+-   Multi agent (CrewAI, Autogen)
+-   [Meta Prompting](https://arxiv.black/pdf/2401.12954)
+
+### Card Library ideas
+
+-   Google Maps
+-   Yelp
+-   Restaraunt view
+-   Wikipedia view
+
+### Pre-processing ideas
+
+-   Detect if the user would be best served by Google's first result and do that
+-   Detect if the request is quick and simple, and respond with grok
+-   Empathize with the the user and have that inform the tone of the response
+-   Enhance the query (prompt engineering)
+-   Detect if the user will want up to date information (use perplexity)
+
+## Coding Principles
+
+Borrowed from the [zen of python](http://c2.com/cgi/wiki?PythonPhilosophy), with a couple of changes.
+
+```text
+1. **Readability is the number 1 code quality metric**.
+2. Beautiful is better than ugly.
+3. Explicit is better than implicit.
+4. Simple is better than complex.
+5. Complex is better than complicated.
+6. Flat is better than nested.
+7. Sparse is better than dense.
+8. Special cases aren't special enough to break the rules.
+    * Although practicality beats purity.
+9. Errors should never pass silently.
+    * Unless explicitly silenced.
+10. In the face of ambiguity, refuse the temptation to guess.
+11. There should be one -- and preferably only one -- obvious way to do it.
+12. Now is better than never.
 ```
-cd morphic
-bun install
-```
-
-### 3. Setting up Upstash Redis
-
-Follow the guide below to set up Upstash Redis. Create a database and obtain `UPSTASH_REDIS_REST_URL` and `UPSTASH_REDIS_REST_TOKEN`. Refer to the [Upstash guide](https://upstash.com/blog/rag-chatbot-upstash#setting-up-upstash-redis) for instructions on how to proceed.
-
-### 4. Fill out secrets
-
-```
-cp .env.local.example .env.local
-```
-
-Your .env.local file should look like this:
-
-```
-# OpenAI API key retrieved here: https://platform.openai.com/api-keys
-OPENAI_API_KEY=
-
-# Tavily API Key retrieved here: https://app.tavily.com/home
-TAVILY_API_KEY=
-
-# Upstash Redis URL and Token retrieved here: https://console.upstash.com/redis
-UPSTASH_REDIS_REST_URL=
-UPSTASH_REDIS_REST_TOKEN=
-```
-
-_Note: This project focuses on Generative UI and requires complex output from LLMs. Currently, it's assumed that the official OpenAI models will be used. Although it's possible to set up other models, if you use an OpenAI-compatible model, but we don't guarantee that it'll work._
-
-### 5. Run app locally
-
-```
-bun dev
-```
-
-You can now visit http://localhost:3000.
-
-## 🌐 Deploy
-
-Host your own live version of Morphic with Vercel or Cloudflare Pages.
-
-### Vercel
-
-[![Deploy with Vercel](https://vercel.com/button)](https://vercel.com/new/clone?repository-url=https%3A%2F%2Fgithub.com%2Fmiurla%2Fmorphic&env=OPENAI_API_KEY,TAVILY_API_KEY,UPSTASH_REDIS_REST_URL,UPSTASH_REDIS_REST_TOKEN)
-
-### Cloudflare Pages
-
-1. Fork the repo to your GitHub.
-2. Create a Cloudflare Pages project.
-3. Select `Morphic` repo and `Next.js` preset.
-4. Set `OPENAI_API_KEY` and `TAVILY_API_KEY` env vars.
-5. Save and deploy.
-6. Cancel deployment, go to `Settings` -> `Functions` -> `Compatibility flags`, add `nodejs_compat` to preview and production.
-7. Redeploy.
-
-**The build error needs to be fixed: [issue](https://github.com/miurla/morphic/issues/114)**
-
-## 🔎 Search Engine
-
-### Setting up the Search Engine in Your Browser
-
-If you want to use Morphic as a search engine in your browser, follow these steps:
-
-1. Open your browser settings.
-2. Navigate to the search engine settings section.
-3. Select "Manage search engines and site search".
-4. Under "Site search", click on "Add".
-5. Fill in the fields as follows:
-   - **Search engine**: Morphic
-   - **Shortcut**: morphic
-   - **URL with %s in place of query**: `https://morphic.sh/search?q=%s`
-6. Click "Add" to save the new search engine.
-7. Find "Morphic" in the list of site search, click on the three dots next to it, and select "Make default".
-
-This will allow you to use Morphic as your default search engine in the browser.
-
-## ✅ Verified models
-
-### List of models applicable to all:
-
-- OpenAI
-  - gpt-4o
-  - gpt-4o-mini
-  - gpt-4-turbo
-  - gpt-3.5-turbo
-- Google
-  - Gemini 1.5 pro (Unstable)
-- Anthropic
-  - Claude 3.5 Sonnet
-- Ollama (Unstable)
-  - mistral/openhermes & Phi3/llama3 [※](https://github.com/miurla/morphic/issues/215)
-
-### List of verified models that can be specified to writers:
-
-- [Groq](https://console.groq.com/docs/models)
-  - LLaMA3.1 8b
-  - LLaMA3.1 70B
-  - LLaMA3 8b
-  - LLaMA3 70b
