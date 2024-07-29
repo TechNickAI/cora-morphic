@@ -12,7 +12,7 @@ export function cn(...inputs: ClassValue[]) {
 
 const LLMProviders = {
   ollama: {
-    defaultModel: process.env.OLLAMA_MODEL || 'llama2',
+    defaultModel: process.env.OLLAMA_MODEL || 'llama3',
     apiKeyName: ""
   },
   openai: {
