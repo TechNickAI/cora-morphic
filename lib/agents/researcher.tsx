@@ -1,7 +1,7 @@
 import { createStreamableUI, createStreamableValue } from 'ai/rsc'
 import { CoreMessage, ToolCallPart, ToolResultPart, streamText } from 'ai'
 import { getTools } from './tools'
-import { getModel, transformToolMessages } from '../utils'
+import { getSpecificModel, transformToolMessages } from '../utils'
 import { AnswerSection } from '@/components/answer-section'
 
 export async function researcher(
@@ -23,15 +23,13 @@ export async function researcher(
     processedMessages = transformToolMessages(messages)
   }
   const includeToolResponses = messages.some(message => message.role === 'tool')
-  const useSubModel = useOllamaProvider && includeToolResponses
 
   const streamableAnswer = createStreamableValue<string>('')
   const answerSection = <AnswerSection result={streamableAnswer.value} />
 
   const currentDate = new Date().toLocaleString()
   const result = await streamText({
-    model: getModel(useSubModel),
-    maxTokens: 2500,
+    model: getSpecificModel("openai"),
     system: `As a professional search expert, you possess the ability to search for any information on the web.
     or any information on the web.
     For each user query, utilize the search results to their fullest potential to provide additional information and assistance in your response.
