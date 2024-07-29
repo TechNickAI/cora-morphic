@@ -10,6 +10,70 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs))
 }
 
+const LLMProviders = {
+  ollama: {
+    defaultModel: process.env.OLLAMA_MODEL || 'llama2',
+    apiKeyName: ""
+  },
+  openai: {
+    defaultModel: 'gpt-4o',
+    apiKeyName: 'OPENAI_API_KEY'
+  },
+  google: {
+    defaultModel: 'models/gemini-1.5-pro-latest',
+    apiKeyName: 'GOOGLE_API_KEY'
+  },
+  anthropic: {
+    defaultModel: 'claude-3-sonnet-20240229',
+    apiKeyName: 'ANTHROPIC_API_KEY'
+  },
+  groq: {
+    defaultModel: 'llama-3.1-70b-versatile',
+    apiKeyName: 'GROQ_API_KEY'
+  },
+}
+
+export function getSpecificModel(provider: 'ollama' | 'openai' | 'google' | 'anthropic' | 'groq', model?: string) {
+  const providerConfig = LLMProviders[provider]
+  if (providerConfig.apiKeyName && !process.env[providerConfig.apiKeyName]) {
+    throw new Error(`Missing ${providerConfig.apiKeyName} environment variable for ${provider} provider`)
+  }
+  const selectedModel = model || providerConfig.defaultModel
+
+  switch (provider) {
+    case 'ollama':
+      if (!process.env.OLLAMA_BASE_URL) {
+        throw new Error('Missing OLLAMA_BASE_URL environment variable')
+      }
+      const ollama = createOllama({ baseURL: process.env.OLLAMA_BASE_URL + '/api' })
+      return ollama(selectedModel)
+
+    case 'openai':
+      const openai = createOpenAI({
+        baseURL: process.env.OPENAI_API_BASE,
+        apiKey: process.env.OPENAI_API_KEY,
+        organization: ''
+      })
+      return openai.chat(selectedModel)
+
+    case 'google':
+      return google(selectedModel)
+
+    case 'anthropic':
+      return anthropic(selectedModel)
+
+    case 'groq':
+      const groq = createOpenAI({
+        baseURL: 'https://api.groq.com/openai/v1',
+        apiKey: process.env.GROQ_API_KEY,
+      })
+      return groq.chat(selectedModel)
+
+    default:
+      throw new Error(`Unsupported provider: ${provider}`)
+  }
+}
+
 export function getModel(useSubModel = false) {
   const ollamaBaseUrl = process.env.OLLAMA_BASE_URL + '/api'
   const ollamaModel = process.env.OLLAMA_MODEL
