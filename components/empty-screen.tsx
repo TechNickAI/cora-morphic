@@ -13,6 +13,10 @@ const exampleMessages = [
   {
     heading: 'What is the latest on Trump vs Kamala?',
     message: 'What is the latest on Trump vs Kamala?',
+  },
+  {
+    heading: 'Give me advice on open relationships',
+    message: 'Give me advice on open relationships',
   }
 ]
 export function EmptyScreen({
