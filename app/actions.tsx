@@ -24,6 +24,7 @@ import { VideoSearchSection } from '@/components/video-search-section'
 import { transformToolMessages } from '@/lib/utils'
 import { AnswerSection } from '@/components/answer-section'
 import { ErrorCard } from '@/components/error-card'
+import { concierge } from '@/lib/agents/concierge'
 
 async function submit(
   formData?: FormData,
@@ -70,15 +71,15 @@ async function submit(
   const content = skip
     ? userInput
     : formData
-    ? JSON.stringify(Object.fromEntries(formData))
-    : null
+      ? JSON.stringify(Object.fromEntries(formData))
+      : null
   const type = skip
     ? undefined
     : formData?.has('input')
-    ? 'input'
-    : formData?.has('related_query')
-    ? 'input_related'
-    : 'inquiry'
+      ? 'input'
+      : formData?.has('related_query')
+        ? 'input_related'
+        : 'inquiry'
 
   // Add the user message to the state
   if (content) {
@@ -101,33 +102,45 @@ async function submit(
   }
 
   async function processEvents() {
-    // Show the spinner
-    uiStream.append(<Spinner />)
 
-    let action = { object: { next: 'proceed' } }
-    // If the user skips the task, we proceed to the search
-    if (!skip) action = (await taskManager(messages)) ?? action
+    // Call concierge instead of taskManager
+    const conciergeResult = await concierge(messages);
 
-    if (action.object.next === 'inquire') {
-      // Generate inquiry
-      const inquiry = await inquire(uiStream, messages)
+    if (!conciergeResult) {
+      // Handle error
+      uiStream.append(
+        <ErrorCard
+          errorMessage="An error occurred while processing your request. Please try again."
+        />
+      )
+      isGenerating.done(false)
       uiStream.done()
-      isGenerating.done()
-      isCollapsed.done(false)
-      aiState.done({
-        ...aiState.get(),
-        messages: [
-          ...aiState.get().messages,
-          {
-            id: generateId(),
-            role: 'assistant',
-            content: `inquiry: ${inquiry?.question}`,
-            type: 'inquiry'
-          }
-        ]
-      })
       return
     }
+
+    const { enhancedRequest, agentType } = conciergeResult.object
+    // Add a new component to display the enhanced query
+    uiStream.append(
+      <Section title={`Enhanced Request, using ${agentType} model`}>
+        <p className="text-sm text-gray-600">{enhancedRequest}</p>
+      </Section>
+    )
+
+    // Overwrite the user's query with the enhanced query
+    const lastUserMessageIndex = messages.findLastIndex(msg => msg.role === 'user');
+    if (lastUserMessageIndex !== -1) {
+      messages[lastUserMessageIndex].content = enhancedRequest;
+    }
+
+    // Update the AI state with the modified messages
+    aiState.update({
+      ...aiState.get(),
+      messages: aiState.get().messages.map(msg =>
+        msg.role === 'user' && msg.id === messages[lastUserMessageIndex].id
+          ? { ...msg, content: enhancedRequest }
+          : msg
+      )
+    });
 
     // Set the collapsed state to true
     isCollapsed.done(true)
@@ -140,15 +153,9 @@ async function submit(
 
     const streamText = createStreamableValue<string>()
 
-    // If ANTHROPIC_API_KEY is set, update the UI with the answer
-    // If not, update the UI with a div
-    if (process.env.ANTHROPIC_API_KEY) {
-      uiStream.update(
-        <AnswerSection result={streamText.value} hasHeader={false} />
-      )
-    } else {
-      uiStream.update(<div />)
-    }
+    uiStream.update(
+      <AnswerSection result={streamText.value} hasHeader={false} />
+    )
 
     // If useSpecificAPI is enabled, only function calls will be made
     // If not using a tool, this model generates the answer
@@ -330,7 +337,7 @@ export const AI = createAI<AIState, UIState>({
     const title =
       messages.length > 0
         ? JSON.parse(messages[0].content)?.input?.substring(0, 100) ||
-          'Untitled'
+        'Untitled'
         : 'Untitled'
     // Add an 'end' message at the end to determine if the history needs to be reloaded
     const updatedMessages: AIMessage[] = [
