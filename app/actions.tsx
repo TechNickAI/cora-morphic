@@ -136,7 +136,7 @@ async function submit(
     aiState.update({
       ...aiState.get(),
       messages: aiState.get().messages.map(msg =>
-        msg.role === 'user' && msg.id === messages[lastUserMessageIndex].id
+        msg.role === 'user' && msg.content === messages[lastUserMessageIndex].content
           ? { ...msg, content: enhancedRequest }
           : msg
       )
