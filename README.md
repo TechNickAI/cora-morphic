@@ -37,56 +37,56 @@ You'll have to set up a few environment variables to get the app running. See [.
 
 ### First release (on par with typing mind)
 
--   [x] Base nextjs setup
--   [x] Basic chat working with an agent
--   [X] Anthropic support
--   [ ] Pre-process the users request
--   [ ] Login with Google
--   [ ] Store all chat histories in Zep or MemGPT
--   [ ] Voice input
--   [ ] Display status from tools
--   [ ] Dynamically choose which is the best model for the query
--   [ ] Link to appropriate google results
--   [ ] Perplexity support
--   [X] Card library for sophisticated responses (thank you @miurla for Morphic)
--   [ ] Dynamically generate the cards (Generative UI) (thank you @miurla for Morphic)
--   [ ] Use the memory to store facts and have them included in the response
--   [ ] Allow for past user chat histories to be referenced in responses
--   [ ] Greet the user with a personalized opening chat
+- [x] Base nextjs setup
+- [x] Basic chat working with an agent
+- [x] Anthropic support
+- [ ] Pre-process the users request
+- [ ] Login with Google
+- [ ] Store all chat histories in Zep or MemGPT
+- [ ] Voice input
+- [ ] Display status from tools
+- [ ] Dynamically choose which is the best model for the query
+- [ ] Link to appropriate google results
+- [ ] Perplexity support
+- [x] Card library for sophisticated responses (thank you @miurla for Morphic)
+- [ ] Dynamically generate the cards (Generative UI) (thank you @miurla for Morphic)
+- [ ] Use the memory to store facts and have them included in the response
+- [ ] Allow for past user chat histories to be referenced in responses
+- [ ] Greet the user with a personalized opening chat
 
 ### After first release
 
--   [ ] New User onboarding (gather facts, walk them through the interface)
--   [ ] Web page reader
--   [ ] Cora as an orchestration layer
--   [ ] Upload files
--   [ ] Generate images
--   [ ] Cora as a product manager for one user. Then sharing information across users to self improve.
--   [ ] Dynamically create the agents to perform the task
--   [ ] Support sophisticated multi agent report for detailed research
+- [ ] New User onboarding (gather facts, walk them through the interface)
+- [ ] Web page reader
+- [ ] Cora as an orchestration layer
+- [ ] Upload files
+- [ ] Generate images
+- [ ] Cora as a product manager for one user. Then sharing information across users to self improve.
+- [ ] Dynamically create the agents to perform the task
+- [ ] Support sophisticated multi agent report for detailed research
 
 ## Ideas to explore
 
 ## Agent
 
--   Chain of Reasoning
--   Multi agent (CrewAI, Autogen)
--   [Meta Prompting](https://arxiv.black/pdf/2401.12954)
+- Chain of Reasoning
+- Multi agent (CrewAI, Autogen)
+- [Meta Prompting](https://arxiv.black/pdf/2401.12954)
 
 ### Card Library ideas
 
--   Google Maps
--   Yelp
--   Restaraunt view
--   Wikipedia view
+- Google Maps
+- Yelp
+- Restaraunt view
+- Wikipedia view
 
 ### Pre-processing ideas
 
--   Detect if the user would be best served by Google's first result and do that
--   Detect if the request is quick and simple, and respond with grok
--   Empathize with the the user and have that inform the tone of the response
--   Enhance the query (prompt engineering)
--   Detect if the user will want up to date information (use perplexity)
+- Detect if the user would be best served by Google's first result and do that
+- Detect if the request is quick and simple, and respond with grok
+- Empathize with the the user and have that inform the tone of the response
+- Enhance the query (prompt engineering)
+- Detect if the user will want up to date information (use perplexity)
 
 ## Coding Principles
 
